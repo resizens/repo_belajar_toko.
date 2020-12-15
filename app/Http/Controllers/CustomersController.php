@@ -45,6 +45,38 @@ class CustomersController extends Controller
     	}
 	}
 	
+	public function update($id, Request $request)
+ 	{
+ 	$validator=Validator::make($request->all(),
+ 		[
+			'id_customers' 	=> 'required',
+			'nama' 			=> 'required',
+			'gender'		=> 'required',
+			'alamat'		=> 'required'  	
+ 		]
+	 );
+	 
+	 if($validator->fails()) 
+	 {
+ 		return Response()->json($validator->errors());
+ 	 }
+ 	$ubah = product::where('id', $id)->update([
+		'id_customers' 	=> $request->id_customers,
+		'nama'			=> $request->nama,
+		'gender' 		=> $request->gender,
+		'alamat'		=> $request->alamat 
+		 ]
+	);
+	 if($ubah) 
+	 {
+ 		return Response()->json(['status' => 1]);
+ 	 }
+	 else 
+	 {
+ 		return Response()->json(['status' => 0]);
+ 	 }
+ }
+
 	public function destroy($id)
 	{
 	   $hapus = customers::where('id', $id)->delete();

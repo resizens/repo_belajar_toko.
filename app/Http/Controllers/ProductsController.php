@@ -53,7 +53,7 @@ class ProductsController extends Controller
     		'warna' 		=> $request->warna
     	]);
 
-    	if($simpan)
+    	if($simpan) 
     	{
     		return Response()->json(['status' => 1]);
     	}
@@ -62,6 +62,37 @@ class ProductsController extends Controller
     		return Response()->json(['status' => 0]);
     	}
 	}
+
+	public function update($id, Request $request)
+ 	{
+ 	$validator=Validator::make($request->all(),
+ 		[
+			'nama_barang' 	=> 'required',
+			'jenis_barang'	=> 'required',
+			'warna'			=> 'required',
+			'id_costumers'	=> 'required'	
+ 		]
+	 );
+	 
+	 if($validator->fails()) 
+	 {
+ 		return Response()->json($validator->errors());
+ 	 }
+ 	$ubah = product::where('id', $id)->update([
+		'nama_barang' 	=> $request->nama_barang,
+		'jenis_barang'	=> $request->jenis_barang,
+		'warna' 		=> $request->warna
+		 ]
+	);
+	 if($ubah) 
+	 {
+ 		return Response()->json(['status' => 1]);
+ 	 }
+	 else 
+	 {
+ 		return Response()->json(['status' => 0]);
+ 	 }
+ }
 	
 	public function destroy($id)
  	{

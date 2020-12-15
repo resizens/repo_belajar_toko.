@@ -54,6 +54,7 @@ class OrderssController extends Controller
     	}
 
     	$simpan = orders::create([
+
     		'nama_customers'	=> $request->nama_customers,
     		'nama_barang'		=> $request->nama_barang,
     		'jenis_barang'		=> $request->jenis_barang,
@@ -75,6 +76,48 @@ class OrderssController extends Controller
     		return Response()->json(['status' => 0]);
     	}
 	}
+
+	public function update($id, Request $request)
+ 	{
+ 	$validator=Validator::make($request->all(),
+ 		[
+			'nama_customers' 	=> 'required',
+			'nama_barang'		=> 'required',
+			'jenis_barang'		=> 'required',
+			'warna'				=> 'required',
+			'tanggal_pesan'		=> 'required',
+			'tanggal_datang'	=> 'required',
+			'pembayaran'		=> 'required',    			
+			'alamat'			=> 'required',
+			'id_customers'		=> 'required'
+ 		]
+	 );
+	 
+	 if($validator->fails()) 
+	 {
+ 		return Response()->json($validator->errors());
+ 	 }
+ 	$ubah = orders::where('id', $id)->update([
+    		'nama_customers'	=> $request->nama_customers,
+    		'nama_barang'		=> $request->nama_barang,
+    		'jenis_barang'		=> $request->jenis_barang,
+    		'warna'				=> $request->warna,
+    		'tanggal_pesan'		=> $request->tanggal_pesan,
+    		'tanggal_datang'	=> $request->tanggal_datang,
+    		'pembayaran'		=> $request->pembayaran,
+    		'alamat'			=> $request->alamat,
+    		'id_customers'		=> $request->id_customers
+		 ]
+	);
+	 if($ubah) 
+	 {
+ 		return Response()->json(['status' => 1]);
+ 	 }
+	 else 
+	 {
+ 		return Response()->json(['status' => 0]);
+ 	 }
+ }
 	
 	public function destroy($id)
 	{
